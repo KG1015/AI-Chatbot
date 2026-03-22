@@ -115,14 +115,14 @@ export default async function handler(req, res) {
           "X-Title": "AI Career Coach",
         },
         body: JSON.stringify({
-          model: "meta-llama/llama-3.1-8b-instruct:free",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: message },
-          ],
-          temperature: 0.7,
-          max_tokens: 300,
-        }),
+  model: "mistralai/mistral-7b-instruct:free",
+  messages: [
+    { role: "system", content: systemPrompt },
+    { role: "user", content: message }
+  ],
+  temperature: 0.7,
+  max_tokens: 300
+}),,
       },
     );
 
