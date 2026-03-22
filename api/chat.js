@@ -97,7 +97,6 @@ export default async function handler(req, res) {
   const apiKey = process.env.OPENAI_API_KEY;
 
   if (!apiKey) {
-    console.error("OpenRouter API key not configured");
     return res.status(500).json({ error: "API not configured" });
   }
 
@@ -116,7 +115,7 @@ export default async function handler(req, res) {
           "X-Title": "AI Career Coach",
         },
         body: JSON.stringify({
-          model: "google/gemma-2-9b-it:free",
+          model: "openrouter/free",
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: message },
@@ -127,12 +126,19 @@ export default async function handler(req, res) {
       },
     );
 
-    const data = await response.json();
-    console.log("OpenRouter status:", response.status);
-    console.log("OpenRouter response:", JSON.stringify(data));
+    const text = await response.text();
+    let data;
+
+    try {
+      data = JSON.parse(text);
+    } catch {
+      return res.status(500).json({
+        error: "Non-JSON response from OpenRouter",
+        details: text,
+      });
+    }
 
     if (!response.ok) {
-      console.error("OpenRouter API error:", data);
       return res.status(response.status).json({
         error: "Failed to get response from AI",
         details: data?.error?.message || "Unknown error",
@@ -144,14 +150,12 @@ export default async function handler(req, res) {
     if (!reply) {
       return res.status(500).json({
         error: "Invalid response from AI",
+        details: data,
       });
     }
 
-    return res.status(200).json({
-      message: reply,
-    });
+    return res.status(200).json({ message: reply });
   } catch (error) {
-    console.error("Chat API error:", error);
     return res.status(500).json({
       error: "Failed to process request",
       details: error.message,
