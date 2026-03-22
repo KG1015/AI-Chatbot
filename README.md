@@ -21,7 +21,7 @@ The application focuses on providing structured and useful responses around comm
 
 I chose this project because:
 
-- Career guidance is something every developer needs
+- Career guidance is something every developer, especially a FRESHER needs
 - It allowed me to build a real-world interactive application
 - It helped me understand frontend + backend integration
 - It demonstrates how to design a clean and usable UI
