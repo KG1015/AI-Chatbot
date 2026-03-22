@@ -102,7 +102,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const systemPrompt = `You are an AI Career Coach specialized in helping software engineers. Give concise, practical, and helpful advice. Keep responses natural and conversational.`;
+    const systemPrompt =
+      "You are an AI Career Coach specialized in helping software engineers. Give concise, practical, and helpful advice. Keep responses natural and conversational.";
 
     const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
@@ -115,14 +116,14 @@ export default async function handler(req, res) {
           "X-Title": "AI Career Coach",
         },
         body: JSON.stringify({
-model: "google/gemma-2-9b-it:free",
-  messages: [
-    { role: "system", content: systemPrompt },
-    { role: "user", content: message }
-  ],
-  temperature: 0.7,
-  max_tokens: 300
-}),,
+          model: "google/gemma-2-9b-it:free",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: message },
+          ],
+          temperature: 0.7,
+          max_tokens: 300,
+        }),
       },
     );
 
