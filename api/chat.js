@@ -102,8 +102,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const systemPrompt = `You are an AI Career Coach specialized in helping software engineers. 
-Give concise, practical, and helpful advice. Keep responses natural and conversational.`;
+    const systemPrompt = `You are an AI Career Coach specialized in helping software engineers. Give concise, practical, and helpful advice. Keep responses natural and conversational.`;
 
     const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
@@ -112,11 +111,11 @@ Give concise, practical, and helpful advice. Keep responses natural and conversa
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${apiKey}`,
-          "HTTP-Referer": "https://your-vercel-app.vercel.app", // optional
+          "HTTP-Referer": "https://ai-chatbot-hazel-delta-25.vercel.app",
           "X-Title": "AI Career Coach",
         },
         body: JSON.stringify({
-          model: "mistralai/mistral-7b-instruct", // free model
+          model: "meta-llama/llama-3.1-8b-instruct:free",
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: message },
@@ -128,6 +127,8 @@ Give concise, practical, and helpful advice. Keep responses natural and conversa
     );
 
     const data = await response.json();
+    console.log("OpenRouter status:", response.status);
+    console.log("OpenRouter response:", JSON.stringify(data));
 
     if (!response.ok) {
       console.error("OpenRouter API error:", data);
